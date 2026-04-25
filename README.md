@@ -1,6 +1,7 @@
 # PE Info Dumper
 
-A simple command-line tool written in C# that displays key information from Windows Portable Executable (PE) files.
+A simple command-line tool written in C# that displays key information
+from Windows Portable Executable (PE) files.
 
 ## 📌 Features
 
@@ -15,14 +16,19 @@ A simple command-line tool written in C# that displays key information from Wind
 1. Download the latest release or compile from source.
 2. Drag and drop any `.exe` file onto `PEInfoDumperx.exe`, or run from command line:
 
+```bash
+   PEInfoDumperx.exe C:\Windows\System32\notepad.exe
+```
+
 ## 🛠️ Built With
 
-- C# (.NET 8/10)
+- C# (.NET 9)
 - `System.Reflection.PortableExecutable`
 
 ## 📚 Educational Purpose
 
-This tool was developed as a learning project to understand the structure of Windows executables. It is intended for **educational and research purposes only**.
+This tool was developed as a learning project to understand the structure
+of Windows executables. It is intended for **educational and research purposes only**.
 
 ## 👤 Author
 
