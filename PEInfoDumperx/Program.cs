@@ -9,11 +9,11 @@ namespace PEInfoDumperx
         [STAThread]
         static void Main()
         {
-            // Abilita gli stili visivi moderni per Windows 11 / 10
+         
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Avvia la nuova interfaccia grafica!
+           
             Application.Run(new MainForm());
         }
     }
