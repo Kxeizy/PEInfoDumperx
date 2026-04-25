@@ -1,34 +1,32 @@
-# PEInfoDumperx | X-Edition Forensic Suite
+# PEInfoDumperx | X-Edition
 
 ![PEInfoDumperx Interface](assets/preview.png)
 
-An advanced, GUI-based forensic analysis suite designed for inspecting Windows Portable Executable (PE) files. Built with a custom, sleek "Cyberpunk Forensic" dark theme, this tool allows malware analysts, reverse engineers, and developers to quickly dissect executable structures, analyze memory sections, and extract critical intelligence from binaries.
+A simple and clean GUI tool to analyze Windows Portable Executables (PE). Built with a custom dark theme, it allows you to quickly extract and inspect information from `.exe`, `.dll`, and `.sys` files.
 
 ## 📌 Features
 
-* **Dark Forensic GUI:** Custom-built interface with smooth animations and a specialized dark theme for extended analysis sessions.
-* **Smart Drag & Drop:** Seamlessly load `.exe`, `.dll`, or `.sys` files directly into the dashboard.
-* **Core PE Inspection:** Detects architecture (x86, x64, ARM64), Entry Point RVA, subsystem, and compilation details.
-* **Entropy & Section Analysis:** Lists all memory sections (Virtual/Raw Size & Address) and automatically flags potentially packed or crypted payloads based on high entropy values (> 7.4).
-* **IAT & EAT Parsing:** Explores the Import Address Table (tree-view of imported DLLs and functions) and Export Address Table.
-* **Strings Explorer:** Extremely fast string extraction with real-time filtering capabilities.
+* **Drag & Drop:** Just drop a file into the window to analyze it.
+* **Basic Info:** Reads architecture (x86, x64, ARM64), Entry Point, and subsystem.
+* **Sections & Entropy:** Lists file sections (Virtual/Raw Size) and calculates entropy to detect if a file might be packed (flags in red if > 7.4).
+* **Imports & Exports:** Shows a clean list of imported DLLs (IAT) and exported functions (EAT).
+* **Strings Search:** Extracts readable strings from the binary and lets you filter them in real-time.
 
-## 🚀 Usage
+## 🚀 How to use
 
-1. Download the latest release or compile the project from source using Visual Studio.
+1. Download the latest release or compile the code with Visual Studio.
 2. Run `PEInfoDumperx.exe`.
-3. Drag and drop any PE binary onto the main dashboard, or click the **LOAD FILE** button.
-4. Navigate through the *Dashboard*, *Imports / Exports*, and *Strings Explorer* tabs to analyze the file.
+3. Drag and drop any PE file into the dashboard or click the **LOAD FILE** button.
 
 ## 🛠️ Built With
 
 * C# (.NET 10.0 Windows)
-* Windows Forms (Custom UI & Animation Engine)
-* System.Reflection.PortableExecutable
+* Custom Windows Forms UI
+* `System.Reflection.PortableExecutable`
 
 ## 📚 Educational Purpose
 
-This tool was developed as a learning project to deeply understand the internal structure of Windows executables and malware analysis techniques. It is intended for **educational and research purposes only**. 
+This tool was created as a learning project to understand the internal structure of Windows executables. It is intended for educational purposes only.
 
 ## 👤 Author
 
