@@ -20,6 +20,10 @@ from Windows Portable Executable (PE) files.
    PEInfoDumperx.exe C:\Windows\System32\notepad.exe
 ```
 
+## 📸 Output example
+
+![PE Info Dumper output](assets/preview.png)
+
 ## 🛠️ Built With
 
 - C# (.NET 10)
