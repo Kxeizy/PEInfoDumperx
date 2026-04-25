@@ -22,7 +22,7 @@ from Windows Portable Executable (PE) files.
 
 ## 🛠️ Built With
 
-- C# (.NET 9)
+- C# (.NET 10)
 - `System.Reflection.PortableExecutable`
 
 ## 📚 Educational Purpose
