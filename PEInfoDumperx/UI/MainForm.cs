@@ -11,7 +11,7 @@ namespace PEInfoDumperx.UI
 {
     public partial class MainForm : Form
     {
-        // --- UI Components ---
+        // UI controls
         private Panel? sidePanel, headerPanel, mainContainer, emptyState;
         private Button? btnDashboard, btnStrings, btnImports, btnLoad;
         private TabControl? tabMain;
@@ -24,7 +24,7 @@ namespace PEInfoDumperx.UI
         private ToolStripStatusLabel? lblStatus, lblFile;
         private StatusStrip? statusStrip;
 
-        // --- Animation Logic (Fully Qualified Timer to avoid CS0104) ---
+        // Animation timers and tracking variables
         private System.Windows.Forms.Timer? globalTimer;
         private int progressTarget = 0;
         private float currentProgress = 0f;
@@ -37,7 +37,7 @@ namespace PEInfoDumperx.UI
         private List<string> currentStrings = new();
         private Button? activeNavBtn;
 
-        // --- Palette (Cyberpunk Forensic) ---
+        // Color palette
         private static readonly Color C_BG = Color.FromArgb(10, 10, 14);
         private static readonly Color C_SIDEBAR = Color.FromArgb(16, 16, 22);
         private static readonly Color C_SURFACE = Color.FromArgb(22, 23, 30);
@@ -77,6 +77,10 @@ namespace PEInfoDumperx.UI
             this.Font = new Font("Segoe UI", 10F);
             this.StartPosition = FormStartPosition.CenterScreen;
 
+            // Load the custom app icon if available
+            try { this.Icon = new Icon("PEinfoLogo.ico"); }
+            catch { /* fail silently and keep default icon */ }
+
             BuildMainArea();
             BuildSidebar();
             BuildHeader();
@@ -84,11 +88,12 @@ namespace PEInfoDumperx.UI
 
             ShowEmptyState(true);
 
-            // --- SMART ANIMATION ENGINE ---
+            // Setup the main animation loop
             globalTimer = new System.Windows.Forms.Timer { Interval = 16 };
             globalTimer.Tick += (s, e) => {
                 bool needsRedrawProgress = false;
 
+                // Handle progress bar animation
                 if (Math.Abs(currentProgress - progressTarget) > 0.05f)
                 {
                     currentProgress += (progressTarget - currentProgress) * 0.15f;
@@ -100,12 +105,14 @@ namespace PEInfoDumperx.UI
                     needsRedrawProgress = true;
                 }
 
+                // Handle navigation indicator sliding animation
                 if (Math.Abs(navIndicatorCurrentY - navIndicatorTargetY) > 0.1f)
                 {
                     navIndicatorCurrentY += (navIndicatorTargetY - navIndicatorCurrentY) * 0.2f;
                     if (navIndicator != null) navIndicator.Top = (int)navIndicatorCurrentY;
                 }
 
+                // Only redraw the progress bar if the value actually changed
                 if (needsRedrawProgress) progressBarCustom?.Invalidate();
             };
             globalTimer.Start();
@@ -132,13 +139,26 @@ namespace PEInfoDumperx.UI
             btnDashboard.Click += (s, e) => Navigate(btnDashboard, 0);
             sidePanel.Controls.Add(btnDashboard);
 
+            // Sidebar logo area
             var logoPnl = new Panel { Dock = DockStyle.Top, Height = 100 };
             logoPnl.Paint += (s, e) => {
                 e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                using var br = new LinearGradientBrush(new Rectangle(25, 30, 35, 35), C_ACCENT, C_ACCENT2, 45f);
-                e.Graphics.FillEllipse(br, 25, 30, 35, 35);
-                e.Graphics.DrawString("PE DUMPER", new Font("Segoe UI", 11, FontStyle.Bold), new SolidBrush(C_TEXT), 70, 32);
-                e.Graphics.DrawString("X-EDITION", new Font("Segoe UI", 7, FontStyle.Bold), new SolidBrush(C_ACCENT), 71, 50);
+
+                try
+                {
+                    // Draw the custom icon
+                    using var ico = new Icon("PEinfoLogo.ico");
+                    e.Graphics.DrawIcon(ico, new Rectangle(18, 25, 46, 46));
+                }
+                catch
+                {
+                    // Fallback to a drawn circle if the icon is missing
+                    using var br = new LinearGradientBrush(new Rectangle(25, 30, 35, 35), C_ACCENT, C_ACCENT2, 45f);
+                    e.Graphics.FillEllipse(br, 25, 30, 35, 35);
+                }
+
+                e.Graphics.DrawString("PE DUMPER", new Font("Segoe UI", 11, FontStyle.Bold), new SolidBrush(C_TEXT), 72, 30);
+                e.Graphics.DrawString("X-EDITION", new Font("Segoe UI", 7, FontStyle.Bold), new SolidBrush(C_ACCENT), 74, 48);
             };
             sidePanel.Controls.Add(logoPnl);
 
@@ -341,6 +361,7 @@ namespace PEInfoDumperx.UI
                 ShowEmptyState(false);
                 progressTarget = 30;
                 lblStatus!.Text = "ANALYZING"; lblFile!.Text = System.IO.Path.GetFileName(path);
+
                 var info = new PEAnalyzer().Analyze(path);
                 currentStrings = info.Strings;
                 progressTarget = 75;
@@ -371,7 +392,7 @@ namespace PEInfoDumperx.UI
                 FilterStrings("");
                 progressTarget = 100; lblStatus.Text = "COMPLETE";
 
-                // --- FIXED AMBIGUOUS TIMER REFERENCE (System.Windows.Forms.Timer) ---
+                // Reset progress bar after 2 seconds
                 var resetTimer = new System.Windows.Forms.Timer { Interval = 2000 };
                 resetTimer.Tick += (s, e) => { progressTarget = 0; resetTimer.Stop(); resetTimer.Dispose(); };
                 resetTimer.Start();

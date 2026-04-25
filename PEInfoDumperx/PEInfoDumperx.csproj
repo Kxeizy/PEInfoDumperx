@@ -10,7 +10,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Content Include="PEinfoLogo.ico" />
+	  <Content Include="PEinfoLogo.ico">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 </Project>
